@@ -1,0 +1,18 @@
+% TODO - Replace the [] with channel ID to read data from:
+readChannelID = [];
+% TODO - Enter the Read API Key between the '' below:
+readAPIKey = 'QUYLJ3JA2K8YI8E9';
+
+
+%% Read latest Data %%
+%% data = thingSpeakRead(readChannelID, 'ReadKey', readAPIKey);
+
+%% Read 3 latest Data with time %%
+data = thingSpeakRead(readChannelID, 'ReadKey', readAPIKey,'Fields',[2,3],NumPoints=3,OutputFormat='TimeTable')
+
+%% Read 5 mins latest Data with time %%
+data = thingSpeakRead(readChannelID, 'ReadKey', readAPIKey,Fields=[1,4],NumMinutes=5,OutputFormat='TimeTable')
+
+%% Read time range data (table each channel max. row = 170 x channel num. column = 2 ) %%
+[data,timestamps,channelInfo] = thingSpeakRead(12397,Fields=[1 4],DateRange=[datetime(2018,8,9,23,59,01),datetime(2018,8,10,0,02,52)])
+
