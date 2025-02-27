@@ -1,53 +1,9 @@
-/*
-  ReadField
-  
-  Description: Demonstates reading from a public channel which requires no API key and reading from a private channel which requires a read API key.
-               The value read from the public channel is the current outside temperature at MathWorks headquaters in Natick, MA.  The value from the
-               private channel is an example counter that increments every 10 seconds.
-  
-  Hardware: Arduino compatible hardware controlling ESP8266 through AT commands. THIS IS CODE FOR THE ARDUINO, NOT THE ESP8266!
-            
-        
-  !!! IMPORTANT - Modify the secrets.h file for this project with your network connection and ThingSpeak channel details. !!!
-  
-  Note:
-  - Requires Arduino main board connected to ESP8266 (ESP-01) serial pins.  
-  - The ESP8266 device must be running firmware capable of AT commands over TX/RX pins. 
-      Details on reflashing and binaries can be found here: https://www.espressif.com/en/support/download/at  
-  - Requires WiFiEsp library which is available through the Library Manager. The logging level for the WiFiEsp library is set to INFO.
-      To disable logging completely, set _ESPLOGLEVEL_ to 0 in \Arduino\libraries\WiFiEsp\src\utility\debug.h
-  - Use TX1/RX1 if present on Arduino header (Mega, Due, etc). If not, then connect TX to pin 7, RX to pin 6.
-  - This example is written for a network using WPA encryption. For WEP or WPA, change the WiFi.begin() call accordingly.
-  
-  Wiring diagrams are available at:
-  SoftSerial (Uno, Nano, Mini, etc): https://github.com/mathworks/thingspeak-arduino/blob/master/ESP-01_AT_Commands_SoftSerial_Hookup.pdf
-  Hardware Serial1 (Mega, Leonardo, Due) - https://github.com/mathworks/thingspeak-arduino/blob/master/ESP-01_AT_Commands_Hardware_Serial_Hookup.pdf
-  
-    ESP8266 | Arduino without Serial1 | Arduino with Serial1  
-    --------------------------------------------------------
-       RX   |         pin 7           |        TX1
-       TX   |         pin 6           |        RX1
-       GND  |          GND            |        GND
-       VCC  |          5V             |        5V
-      CH_PD |          5V             |        5V
-  
-  ThingSpeak ( https://www.thingspeak.com ) is an analytic IoT platform service that allows you to aggregate, visualize, and 
-  analyze live data streams in the cloud. Visit https://www.thingspeak.com to sign up for a free account and create a channel.  
-  
-  Documentation for the ThingSpeak Communication Library for Arduino is in the README.md folder where the library was installed.
-  See https://www.mathworks.com/help/thingspeak/index.html for the full ThingSpeak documentation.
-  
-  For licensing information, see the accompanying license file.
-  
-  Copyright 2020, The MathWorks, Inc.
-*/
-
 #include "WiFiEsp.h"
 #include "secrets.h"
 #include "ThingSpeak.h" // always include thingspeak header file after other header files and custom macros
 
-char ssid[] = "SSID";  // network SSID
-char pass[] = "PW";  // network password
+char ssid[] = SECRET_SSID;  // network SSID
+char pass[] = SECRET_PASS;  // network password
 int keyIndex = 0;            // your network key Index number (needed only for WEP)
 WiFiEspClient  client;
 
@@ -67,8 +23,8 @@ unsigned long weatherStationChannelNumber = SECRET_CH_ID_WEATHER_STATION;
 unsigned int temperatureFieldNumber = 4;
 
 // Counting channel details
-unsigned long counterChannelNumber = channelID;
-const char * myCounterReadAPIKey = "ReadKey";
+unsigned long counterChannelNumber = SECRET_CH_ID;
+const char * myCounterReadAPIKey = SECRET_READ_APIKEY;
 unsigned int counterFieldNumber = 2; 
 
 void setup() {
